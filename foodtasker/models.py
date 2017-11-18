@@ -41,7 +41,30 @@ class Meal(models.Model):
     def __str__(self):
         return self.name
 
+class Order(models.Model):
+    COOKING = 1
+    READY = 2
+    ONTHEWAY = 3
+    DELIVERED = 4
 
+    STATUS_CHOICES = (
+        (COOKING, "Cooking"),
+        (READY, "Ready"),
+        (ONTHEWAY, "On the way"),
+        (DELIVERED, "Delivered"),
+    )
+
+    customer = models.ForeignKey(Customer)
+    restaurant = models.ForeignKey(Restaurant)
+    driver = models.ForeignKey(Driver, blank = True, null = True)
+    address = models.CharField(max_length=500)
+    total = models.IntegerField()
+    status = models.IntegerField(choices = STATUS_CHOICES)
+    created_at = models.DateTimeField(auto_now_add=True)
+    picked_at = models.DateTimeField(blank = True, null = True)
+
+    def __str__(self):
+        return str(self.id)
 
 
 
